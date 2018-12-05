@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
     private CustomerRepository customerRepository;
-    private Logger logger = LoggerFactory.getLogger(CustomerController.class);
+//    private Logger logger = LoggerFactory.getLogger(CustomerController.class);
     private int counter;
 
     public CustomerController(CustomerRepository customerRepository) {
@@ -25,18 +25,18 @@ public class CustomerController {
     @RequestMapping("/")
     public String welcome() {
 
+        Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
         logger.info("Testing logz.io!");
         logger.warn("Winter is coming");
 
         logger.error("Testing error #" + counter);
         logger.warn("Testing warn #" + counter);
         logger.info("Testing info #" + counter);
-        logger.debug("Testing debug #" + counter);
 
         System.out.println("Testing error #" + counter);
         System.out.println("Testing warn #" + counter);
         System.out.println("Testing info #" + counter);
-        System.out.println("Testing debug #" + counter);
 
         counter++;
 
