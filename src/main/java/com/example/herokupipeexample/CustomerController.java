@@ -3,6 +3,7 @@ package com.example.herokupipeexample;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.codahale.metrics.MetricRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ public class CustomerController {
 
     private CustomerRepository customerRepository;
 //    private Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    private final MetricRegistry registry = new MetricRegistry();
     private int counter;
 
     public CustomerController(CustomerRepository customerRepository) {
@@ -27,17 +29,11 @@ public class CustomerController {
 
         Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
-        logger.info("Testing logz.io!");
-        logger.warn("Winter is coming");
+        registry.meter("welcome").mark();
 
-        logger.error("Testing error #" + counter);
-        logger.warn("Testing warn #" + counter);
-        logger.info("Testing info #" + counter);
-
-        System.out.println("Testing error #" + counter);
-        System.out.println("Testing warn #" + counter);
-        System.out.println("Testing info #" + counter);
-
+        logger.error("Testing LOGGER for LEVEL: error nr." + counter);
+        logger.warn("Testing LOGGER for LEVEL: warn nr." + counter);
+        logger.info("Testing LOGGER for LEVEL: info nr." + counter);
         counter++;
 
         return "Welcome to this small REST service. It will accept a GET on /list with a request parameter lastName, and a POST to / with a JSON payload with firstName and lastName as values.";

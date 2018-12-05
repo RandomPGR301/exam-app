@@ -64,6 +64,18 @@
 			<version>9.4-1206-jdbc42</version>
 		</dependency>
 
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-graphite</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
