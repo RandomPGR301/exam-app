@@ -21,6 +21,10 @@ public class GraphiteMetricsConfig {
     @Bean
     public GraphiteReporter getReporter(MetricRegistry registry) {
 
+        if (registry == null) {
+            registry = getRegistry();
+        }
+
         Optional<String> graphiteHostOptional = Optional.of(System.getenv("GRAPHITE_HOST"));
         String graphiteHost = graphiteHostOptional.orElse("carbon.hostedgraphite.com");
 
