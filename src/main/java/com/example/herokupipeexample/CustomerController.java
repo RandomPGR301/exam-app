@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.graphite.GraphiteReporter;
+import org.apache.catalina.core.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
     private CustomerRepository customerRepository;
-//    private Logger logger = LoggerFactory.getLogger(CustomerController.class);
-    private final MetricRegistry registry = new MetricRegistry();
+    private Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    private static final MetricRegistry registry = new MetricRegistry();
     private int counter;
 
     public CustomerController(CustomerRepository customerRepository) {
@@ -27,10 +30,7 @@ public class CustomerController {
     @RequestMapping("/")
     public String welcome() {
 
-        Logger logger = LoggerFactory.getLogger(CustomerController.class);
-
         registry.meter("welcome").mark();
-
         logger.info("Testing LOGGER for LEVEL: info nr." + counter);
         counter++;
 
