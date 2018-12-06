@@ -21,14 +21,10 @@ public class GraphiteMetricsConfig {
     @Bean
     public GraphiteReporter getReporter(MetricRegistry registry) {
 
-        if (registry == null) {
-            registry = getRegistry();
-        }
+//        Optional<String> graphiteHostOptional = Optional.of(System.getenv("GRAPHITE_HOST"));
+//        String graphiteHost = graphiteHostOptional.orElse("carbon.hostedgraphite.com");
 
-        Optional<String> graphiteHostOptional = Optional.of(System.getenv("GRAPHITE_HOST"));
-        String graphiteHost = graphiteHostOptional.orElse("carbon.hostedgraphite.com");
-
-        Graphite graphite = new Graphite(new InetSocketAddress(graphiteHost, 2003));
+        Graphite graphite = new Graphite(new InetSocketAddress("carbon.hostedgraphite.com", 2003));
         GraphiteReporter reporter = GraphiteReporter.forRegistry(registry)
                 .prefixedWith(System.getenv("HOSTEDGRAPHITE_APIKEY"))
                 .convertRatesTo(TimeUnit.SECONDS)
