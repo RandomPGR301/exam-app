@@ -31,8 +31,6 @@ public class CustomerController {
 
         registry.meter("welcome").mark();
 
-        logger.error("Testing LOGGER for LEVEL: error nr." + counter);
-        logger.warn("Testing LOGGER for LEVEL: warn nr." + counter);
         logger.info("Testing LOGGER for LEVEL: info nr." + counter);
         counter++;
 

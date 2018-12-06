@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.net.InetSocketAddress;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -20,11 +19,7 @@ public class GraphiteMetricsConfig {
 
     @Bean
     public GraphiteReporter getReporter(MetricRegistry registry) {
-
-//        Optional<String> graphiteHostOptional = Optional.of(System.getenv("GRAPHITE_HOST"));
-//        String graphiteHost = graphiteHostOptional.orElse("carbon.hostedgraphite.com");
-
-        Graphite graphite = new Graphite(new InetSocketAddress("carbon.hostedgraphite.com", 2003));
+        Graphite graphite = new Graphite(new InetSocketAddress(System.getenv("GRAPHITE_HOST"), 2003));
         GraphiteReporter reporter = GraphiteReporter.forRegistry(registry)
                 .prefixedWith(System.getenv("HOSTEDGRAPHITE_APIKEY"))
                 .convertRatesTo(TimeUnit.SECONDS)
