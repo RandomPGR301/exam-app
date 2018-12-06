@@ -1,5 +1,7 @@
 package com.example.herokupipeexample;
 
+import com.codahale.metrics.Gauge;
+import com.codahale.metrics.MetricRegistry;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 
     private final CustomerRepository repository;
+    private static final MetricRegistry registry = new MetricRegistry();
 
     /**
      * The currently edited user
@@ -62,11 +65,13 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 
     private void delete() {
         repository.delete(customer);
+        registry.meter("customerDelete").mark();
         changeHandler.onChange();
     }
 
     private void save() {
         repository.save(customer);
+        registry.meter("customerSave").mark();
         changeHandler.onChange();
     }
 
@@ -81,6 +86,7 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
         }
         final boolean persisted = c.getId() != null;
         if (persisted) {
+            registry.meter("customerEdited").mark();
             // Find fresh entity for editing
             customer = repository.findById(c.getId()).get();
         }
@@ -106,4 +112,8 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
         changeHandler = h;
     }
 
+    public void allCustomersAmount(String name, Integer amount) {
+        registry.register(MetricRegistry.name(CustomerEditor.class, name, "amount"),
+                (Gauge<Integer>) () -> amount);
+    }
 }

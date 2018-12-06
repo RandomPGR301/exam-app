@@ -19,6 +19,7 @@ public class GraphiteMetricsConfig {
 
     @Bean
     public GraphiteReporter getReporter(MetricRegistry registry) {
+
         Graphite graphite = new Graphite(new InetSocketAddress(System.getenv("GRAPHITE_HOST"), 2003));
         GraphiteReporter reporter = GraphiteReporter.forRegistry(registry)
                 .prefixedWith(System.getenv("HOSTEDGRAPHITE_APIKEY"))

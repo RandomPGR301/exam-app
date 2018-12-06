@@ -1,5 +1,6 @@
 package com.example.herokupipeexample;
 
+import com.codahale.metrics.MetricRegistry;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -9,6 +10,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 
 @Route
@@ -66,7 +69,9 @@ public class MainView extends VerticalLayout {
     // tag::listCustomers[]
     void listCustomers(String filterText) {
         if (StringUtils.isEmpty(filterText)) {
-            grid.setItems(repo.findAll());
+            List<Customer> allCustomers = repo.findAll();
+            editor.allCustomersAmount("allCustomers", allCustomers.size());
+            grid.setItems(allCustomers);
         } else {
             grid.setItems(repo.findByLastNameStartsWithIgnoreCase(filterText));
         }
