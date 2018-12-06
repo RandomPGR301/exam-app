@@ -39,7 +39,7 @@ public class CustomerController {
 
     @RequestMapping("/list")
     public List<Customer> find(@RequestParam(value="lastName") String lastName) {
-        return customerRepository.findByLastName(lastName);
+        return customerRepository.findByLastNameStartsWithIgnoreCase(lastName);
     }
 
     @PostMapping("/")
